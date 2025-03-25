@@ -82,6 +82,11 @@ jobs:
         find dl -size -1024c -exec ls -l {} \;
         find dl -size -1024c -exec rm -f {} \;
 
+    - name: Start SSH Session (Debug)
+      uses: mxschmitt/action-tmate@v3
+      # 可选：仅手动触发时启用
+      if: github.event_name == 'workflow_dispatch'    
+
     - name: Compile the firmware
       id: compile
       run: |
