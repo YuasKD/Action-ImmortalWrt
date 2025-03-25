@@ -15,6 +15,14 @@ name: OpenWrt Builder
 on:
   repository_dispatch:
   workflow_dispatch:
+    inputs:
+      enable_ssh:
+        description: 'Enable SSH debugging?'
+        type: boolean
+        required: true
+        default: false
+  push:
+    branches: [ master ]
 
 env:
   REPO_URL: https://github.com/immortalwrt/immortalwrt
@@ -83,9 +91,8 @@ jobs:
         find dl -size -1024c -exec rm -f {} \;
 
     - name: Start SSH Session (Debug)
-      uses: mxschmitt/action-tmate@v3
-      # 可选：仅手动触发时启用
-      if: github.event_name == 'workflow_dispatch'    
+      if: ${{ github.event_name == 'workflow_dispatch' && inputs.enable_ssh == 'true' }}
+      uses: mxschmitt/action-tmate@v3    
 
     - name: Compile the firmware
       id: compile
