@@ -90,9 +90,13 @@ jobs:
         find dl -size -1024c -exec ls -l {} \;
         find dl -size -1024c -exec rm -f {} \;
 
+    # ========== 修改点：SSH 调试条件修正 ==========
     - name: Start SSH Session (Debug)
-      if: ${{ github.event_name == 'workflow_dispatch' && inputs.enable_ssh == 'true' }}
-      uses: mxschmitt/action-tmate@v3    
+      if: |
+        github.event_name == 'workflow_dispatch' &&
+        github.event.inputs.enable_ssh == 'true'
+      uses: mxschmitt/action-tmate@v3
+    # ===========================================
 
     - name: Compile the firmware
       id: compile
