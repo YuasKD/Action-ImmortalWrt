@@ -228,8 +228,6 @@ jobs:
         # 创建大容量工作区并设置权限
         sudo mkdir -p ${{ env.WORKSPACE }} ${{ env.TMPDIR }} /mnt/dl-cache
         sudo chown -R $USER:$GROUPS /mnt/{workspace,tmp,dl-cache}
-        # 清理旧临时文件（保留7天内的）
-        find /mnt/tmp -type d -name 'tmp.*' -mtime +7 -exec rm -rf {} +
 
     - name: Clone source code
       working-directory: ${{ env.WORKSPACE }}
